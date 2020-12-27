@@ -1,5 +1,5 @@
 {
-  "name": "strapi-provider-upload-s3-custom",
+  "name": "strapi-provider-upload-s3-saycustom",
   "version": "1.0.0",
   "description": "Extension to current AWS S3 plugin to support custom domain for accessing uploaded images.",
   "main": "index.js",
@@ -12,6 +12,19 @@
     "upload",
     "customdomain"
   ],
-  "author": "Sayooj Thandasherry",
+  "author": {
+    "name": "Sayooj Thandasherry",
+    "url": "https://github.com/sayoojt"
+  },
+   "repository": {
+    "type": "git",
+    "url": "git://github.com/sayoojt/strapi-provider-upload-s3-saycustom.git"
+  },
+   "dependencies": {
+    "aws-sdk": "^2.488.0"
+  },
+  "bugs": {
+    "url": "https://github.com/sayoojt/strapi-provider-upload-s3-saycustom/issues"
+  },
   "license": "ISC"
 }
