@@ -11,7 +11,7 @@ const AWS = require('aws-sdk');
 
 module.exports = {
     init(config) {
-        const S3 = new AWS.S3({
+        const s3 = new AWS.S3({
             apiVersion: '2006-03-01',
             ...config,
         });
@@ -19,22 +19,20 @@ module.exports = {
         return {
             upload(file, customParams = {}) {
                 return new Promise((resolve, reject) => {
-                    // upload file on S3 bucket
-                    const path = file.path ? `${file.path}/` : '';
-                    const objectKey = `${path}${file.hash}${file.ext}`;
-                    S3.upload(Object.assign({
+                    // upload file on S3 bucket                    
+                    const objectKey = `${file.hash}${file.ext}`;
+                    s3.upload({
                         Key: objectKey,
                         Body: Buffer.from(file.buffer, 'binary'),
+                        // ACL: 'public-read', // don't use this
                         ContentType: file.mime,
+                        Bucket,
                         ...customParams,
-                    }, config.isPublic ? { ACL: 'public-read' } : {}), (err, data) => {
-                        if (err) {
+                    }, (err, data) => {
+                        if (err)
                             return reject(err);
-                        }
-
-                        // set the bucket file url
-                        file.url = `${config.baseUrl}/${objectKey}`;
-
+                        // set the file url to the CDN instead of the bucket itself
+                        file.url = `http://${config.baseUrl}/${objectKey}`;
                         resolve();
                     });
                 });
@@ -42,20 +40,17 @@ module.exports = {
             delete(file, customParams = {}) {
                 return new Promise((resolve, reject) => {
                     // delete file on S3 bucket
-                    const path = file.path ? `${file.path}/` : '';
-                    S3.deleteObject(
-                        {
-                            Key: `${path}${file.hash}${file.ext}`,
-                            ...customParams,
-                        },
+                    s3.deleteObject({
+                        Key: `${file.hash}${file.ext}`,
+                        ...customParams,
+                    },
                         (err, data) => {
                             if (err) {
                                 return reject(err);
                             }
 
                             resolve();
-                        }
-                    );
+                        });
                 });
             },
         };
