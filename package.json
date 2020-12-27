@@ -1,0 +1,17 @@
+{
+  "name": "strapi-provider-upload-s3-custom",
+  "version": "1.0.0",
+  "description": "Extension to current AWS S3 plugin to support custom domain for accessing uploaded images.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "aws",
+    "s3",
+    "upload",
+    "customdomain"
+  ],
+  "author": "Sayooj Thandasherry",
+  "license": "ISC"
+}
