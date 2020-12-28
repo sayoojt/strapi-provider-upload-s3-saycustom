@@ -28,7 +28,7 @@ module.exports = {
                         // ACL: 'public-read', // don't use this
                         ContentType: file.mime,
                         ...customParams,
-                    }, config.isPublic ? { ACL: 'public-read' } : {}), (err, data) => {
+                    }, config.isPublic ? { ACL: 'public-read' } : {}, (err, data) => {
                         if (err)
                             return reject(err);
                         // set the file url to the CDN instead of the bucket itself
@@ -40,24 +40,24 @@ module.exports = {
                         }
                         resolve();
                     });
-            });
-        },
-            delete (file, customParams = {}) {
-            return new Promise((resolve, reject) => {
-                // delete file on S3 bucket
-                s3.deleteObject({
-                    Key: `${file.hash}${file.ext}`,
-                    ...customParams,
-                },
-                    (err, data) => {
-                        if (err) {
-                            return reject(err);
-                        }
+                });
+            },
+            delete(file, customParams = {}) {
+                return new Promise((resolve, reject) => {
+                    // delete file on S3 bucket
+                    s3.deleteObject({
+                        Key: `${file.hash}${file.ext}`,
+                        ...customParams,
+                    },
+                        (err, data) => {
+                            if (err) {
+                                return reject(err);
+                            }
 
-                        resolve();
-                    });
-            });
-        },
-    };
-},
+                            resolve();
+                        });
+                });
+            },
+        };
+    },
 };
