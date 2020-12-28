@@ -52,4 +52,5 @@ Few tips to note when you are implementing this,
     ]
 }
 ```
-- Created CDN for better performance.
+- Created CDN in AWS for better performance.
+- We can also create custom domain in R53 or outside domain provider using CNAME entry and map into S3 endpoint.
