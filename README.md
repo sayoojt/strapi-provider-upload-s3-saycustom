@@ -2,8 +2,9 @@
 
 *Added isPublic and baseUrl options on top of the existing configurations.
 *Added one more option - ACL to pass exact ACL access as a string. Please check [here](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) for the list of access possible with ACL. Possible values are : private,  public-read, public-read-write, aws-exec-read, authenticated-read, bucket-owner-read, bucket-owner-full-control & log-delivery-write
-*if isPublic is true, ACL will be set to ######public-read and by default its false it will be ######private.
-*if both isPublic and ACL mentioned priority will be for ACL and if incorrect ACL added, it depends on how AWS throws error.
+*if #####isPublic is true, ACL will be set to ######public-read and by default its false it will be ######private.
+*if both #####isPublic and ACL mentioned priority will be for ACL and if incorrect ACL added, it depends on how AWS throws error.
+*Added #####isBaseUrlHttps for deciding if the URL is https, by default its http
 
 i have used the below code,
 
@@ -17,6 +18,7 @@ module.exports = ({ env }) => ({
             secretAccessKey: env('AWS_ACCESS_SECRET'),
             region: env('AWS_REGION'),
             baseUrl: env('STATIC_DOMAIN_NAME'),
+            isBaseUrlHttps: env('IS_HTTPS_ENABLED_FOR_DOMAIN'),
             params: {
                 Bucket: env('AWS_BUCKET_NAME'),
             },
@@ -35,6 +37,7 @@ AWS_BUCKET_NAME='ADD YOUR BUCKET NAME'
 STATIC_DOMAIN_NAME='addyourdomain.com'//Add your domain or CDN, if this is not set it will use AWS S3 url by default.
 //AWS_IS_PUBLIC=true //add this to true if you want to make your file publicly available. //commented this in my code as am using ACL option and priority will be for the ACL option.
 AWS_ACL= 'public-read' //if you are totally clueless and not sure how to set this then use AWS_IS_PUBLIC to true dont worry about anything else.
+IS_HTTPS_ENABLED_FOR_DOMAIN=true //if you want to enable https, by default its http so this is an optional field
 ```
 
 Few tips to note when you are implementing this,
