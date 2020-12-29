@@ -21,7 +21,7 @@ module.exports = {
                 return new Promise((resolve, reject) => {
                     // upload file on S3 bucket                    
                     const objectKey = `${file.hash}${file.ext}`;
-
+                    console.log(customParams);
                     s3.upload({
                         Key: objectKey,
                         Body: Buffer.from(file.buffer, 'binary'),
@@ -33,7 +33,7 @@ module.exports = {
                             return reject(err);
                         // set the file url to the CDN instead of the bucket itself
                         //file.url = `http://${config.baseUrl}/${objectKey}`;
-                        if (customParams.baseUrl) {
+                        if (config.baseUrl) {
                             file.url = `${config.baseUrl}/${objectKey}`;
                         } else {
                             file.url = data.Location // current behavior
