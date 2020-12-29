@@ -19,30 +19,25 @@ module.exports = {
         return {
             upload(file) {
                 return new Promise((resolve, reject) => {
-                    // upload file on S3 bucket                    
                     const objectKey = `${file.hash}${file.ext}`;
                     s3.upload(Object.assign({
                         Key: objectKey,
                         Body: new Buffer(file.buffer, 'binary'),
-                        ACL: config.ACL ? config.ACL : 'private', // don't use this
                         ContentType: file.mime,
-                    }, (err, data) => {
+                    }, { ACL: config.ACL ? config.ACL : 'private' }, (err, data) => {
                         if (err)
                             return reject(err);
-                        // set the file url to the CDN instead of the bucket itself
-                        //file.url = `http://${config.baseUrl}/${objectKey}`;
                         if (config.baseUrl) {
                             file.url = `${config.baseUrl}/${objectKey}`;
                         } else {
-                            file.url = data.Location // current behavior
+                            file.url = data.Location
                         }
                         resolve();
-                    });
+                    }));
                 });
             },
             delete(file) {
                 return new Promise((resolve, reject) => {
-                    // delete file on S3 bucket
                     s3.deleteObject({
                         Key: `${file.hash}${file.ext}`,
                     },
