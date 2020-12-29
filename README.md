@@ -2,8 +2,9 @@
 
 *Added isPublic and baseUrl options on top of the existing configurations.
 *Added one more option - ACL to pass exact ACL access as a string. Please check [here](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) for the list of access possible with ACL. Possible values are : private,  public-read, public-read-write, aws-exec-read, authenticated-read, bucket-owner-read, bucket-owner-full-control & log-delivery-write
-*if isPublic is true, ACL will be set to ######public-read and by default its false it will be ######private.
-*if both isPublic and ACL mentioned priority will be for ACL and if incorrect ACL added, it depends on how AWS throws error.
+*if #####isPublic is true, ACL will be set to ######public-read and by default its false it will be ######private.
+*if both #####isPublic and ACL mentioned priority will be for ACL and if incorrect ACL added, it depends on how AWS throws error.
+*Added #####isBaseUrlHttps for deciding if the URL is https, by default its http
 
 i have used the below code,
 
