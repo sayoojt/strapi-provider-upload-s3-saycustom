@@ -17,17 +17,15 @@ module.exports = {
         });
         if (!config.baseUrl || config.baseUrl == "") config.baseUrl = config.isPublic ? 'public-read' : 'private';
         return {
-            upload(file, customParams = {}) {
+            upload(file) {
                 return new Promise((resolve, reject) => {
                     // upload file on S3 bucket                    
                     const objectKey = `${file.hash}${file.ext}`;
-                    console.log(customParams);
-                    s3.upload({
+                    s3.upload(Object.assign({
                         Key: objectKey,
-                        Body: Buffer.from(file.buffer, 'binary'),
+                        Body: new Buffer(file.buffer, 'binary'),
                         ACL: config.ACL ? config.ACL : 'private', // don't use this
                         ContentType: file.mime,
-                        ...customParams,
                     }, (err, data) => {
                         if (err)
                             return reject(err);
@@ -42,12 +40,11 @@ module.exports = {
                     });
                 });
             },
-            delete(file, customParams = {}) {
+            delete(file) {
                 return new Promise((resolve, reject) => {
                     // delete file on S3 bucket
                     s3.deleteObject({
                         Key: `${file.hash}${file.ext}`,
-                        ...customParams,
                     },
                         (err, data) => {
                             if (err) {
