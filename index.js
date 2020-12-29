@@ -15,7 +15,7 @@ module.exports = {
             apiVersion: '2006-03-01',
             ...config,
         });
-
+        if (!config.baseUrl || config.baseUrl == "") config.baseUrl = config.isPublic ? 'public-read' : 'private';
         return {
             upload(file, customParams = {}) {
                 return new Promise((resolve, reject) => {
@@ -25,10 +25,10 @@ module.exports = {
                     s3.upload({
                         Key: objectKey,
                         Body: Buffer.from(file.buffer, 'binary'),
-                        // ACL: 'public-read', // don't use this
+                        ACL: config.ACL ? config.ACL : 'private', // don't use this
                         ContentType: file.mime,
                         ...customParams,
-                    }, config.isPublic ? { ACL: 'public-read' } : {}, (err, data) => {
+                    }, (err, data) => {
                         if (err)
                             return reject(err);
                         // set the file url to the CDN instead of the bucket itself
