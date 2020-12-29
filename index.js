@@ -16,6 +16,8 @@ module.exports = {
             ...config,
         });
         if (!config.ACL || config.baseACLUrl == "") config.ACL = config.isPublic ? 'public-read' : 'private';
+        let baseURLProtocol = "http://";
+        if (config.isBaseUrlHttps) baseURLProtocol = "https://";
         return {
             upload(file, customParams = {}) {
                 return new Promise((resolve, reject) => {
@@ -30,7 +32,7 @@ module.exports = {
                         if (err)
                             return reject(err);
                         if (config.baseUrl) {
-                            file.url = `${config.baseUrl}/${objectKey}`;
+                            file.url = `${baseURLProtocol}${config.baseUrl}/${objectKey}`;
                         } else {
                             file.url = data.Location
                         }
