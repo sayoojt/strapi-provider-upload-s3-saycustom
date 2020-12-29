@@ -17,14 +17,17 @@ module.exports = {
         });
         if (!config.baseUrl || config.baseUrl == "") config.baseUrl = config.isPublic ? 'public-read' : 'private';
         return {
-            upload(file) {
+            upload(file, customParams = {}) {
                 return new Promise((resolve, reject) => {
                     const objectKey = `${file.hash}${file.ext}`;
-                    s3.upload(Object.assign({
+                    s3.upload({
+                        Bucket: config.params.Bucket,
+                        ACL: config.ACL ? config.ACL : 'private',
+                        ...customParams,
                         Key: objectKey,
-                        Body: new Buffer(file.buffer, 'binary'),
+                        Body: Buffer.from(file.buffer, 'binary'),
                         ContentType: file.mime,
-                    }, { ACL: config.ACL ? config.ACL : 'private' }, (err, data) => {
+                    }, (err, data) => {
                         if (err)
                             return reject(err);
                         if (config.baseUrl) {
@@ -33,21 +36,21 @@ module.exports = {
                             file.url = data.Location
                         }
                         resolve();
-                    }));
+                    });
                 });
             },
-            delete(file) {
+            delete(file, customParams = {}) {
                 return new Promise((resolve, reject) => {
                     s3.deleteObject({
                         Key: `${file.hash}${file.ext}`,
-                    },
-                        (err, data) => {
-                            if (err) {
-                                return reject(err);
-                            }
-
-                            resolve();
-                        });
+                        Bucket: config.params.Bucket,
+                        ...customParams,
+                    }, (err, data) => {
+                        if (err) {
+                            return reject(err);
+                        }
+                        resolve();
+                    });
                 });
             },
         };
