@@ -21,7 +21,6 @@ module.exports = {
                 return new Promise((resolve, reject) => {
                     const objectKey = `${file.hash}${file.ext}`;
                     s3.upload({
-                        Bucket: config.params.Bucket,
                         ACL: config.ACL ? config.ACL : 'private',
                         ...customParams,
                         Key: objectKey,
@@ -43,7 +42,6 @@ module.exports = {
                 return new Promise((resolve, reject) => {
                     s3.deleteObject({
                         Key: `${file.hash}${file.ext}`,
-                        Bucket: config.params.Bucket,
                         ...customParams,
                     }, (err, data) => {
                         if (err) {
