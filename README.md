@@ -23,7 +23,8 @@ module.exports = ({ env }) => ({
                 Bucket: env('AWS_BUCKET_NAME'),
             },
             isPublic: env('AWS_IS_PUBLIC'),
-            ACL: env('AWS_ACL')
+            ACL: env('AWS_ACL'),
+            baseFolder: env('AWS_URL_FOLDER')
         },
     },
 });
@@ -38,6 +39,7 @@ STATIC_DOMAIN_NAME='addyourdomain.com'//Add your domain or CDN, if this is not s
 //AWS_IS_PUBLIC=true //add this to true if you want to make your file publicly available. //commented this in my code as am using ACL option and priority will be for the ACL option.
 AWS_ACL= 'public-read' //if you are totally clueless and not sure how to set this then use AWS_IS_PUBLIC to true dont worry about anything else.
 IS_HTTPS_ENABLED_FOR_DOMAIN=true //if you want to enable https, by default its http so this is an optional field
+AWS_URL_FOLDER = 'asset' //naming folder or add this in url for ALB redirection, optional parameter
 ```
 
 Few tips to note when you are implementing this,
