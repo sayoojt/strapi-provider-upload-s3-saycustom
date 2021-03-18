@@ -15,7 +15,7 @@ module.exports = {
             apiVersion: '2006-03-01',
             ...config,
         });
-        if (!config.ACL || config.baseACLUrl == "") config.ACL = config.isPublic ? 'public-read' : 'private';
+        if (!config.ACL) config.ACL = config.isPublic ? 'public-read' : 'private';
         let baseURLProtocol = "http://";
         if (config.isBaseUrlHttps) baseURLProtocol = "https://";
         return {
@@ -23,7 +23,7 @@ module.exports = {
                 return new Promise((resolve, reject) => {
                     const objectKey = `${file.hash}${file.ext}`;
                     s3.upload({
-                        //ACL: config.ACL ? config.ACL : 'private',
+                        ACL: config.ACL ? config.ACL : 'private',
                         ...customParams,
                         Key: objectKey,
                         Body: Buffer.from(file.buffer, 'binary'),
@@ -36,7 +36,11 @@ module.exports = {
                                 file.url = `${baseURLProtocol}${config.baseUrl}/${config.baseFolder}/${objectKey}`;
                             else
                                 file.url = `${baseURLProtocol}${config.baseUrl}/${objectKey}`;
-                        } else {
+                        }
+                        else if (config.baseFolder) {
+                            file.url = `${config.baseFolder}/${objectKey}`;
+                        }
+                        else {
                             file.url = data.Location
                         }
                         resolve();
