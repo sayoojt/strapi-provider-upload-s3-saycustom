@@ -38,7 +38,7 @@ module.exports = {
                                 file.url = `${baseURLProtocol}${config.baseUrl}/${objectKey}`;
                         }
                         else if (config.baseFolder) {
-                            file.url = `${config.baseFolder}/${objectKey}`;
+                            file.url = `/${config.baseFolder}/${objectKey}`;
                         }
                         else {
                             file.url = data.Location
