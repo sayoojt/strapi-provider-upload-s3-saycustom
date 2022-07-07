@@ -43,7 +43,7 @@ AWS_URL_FOLDER = 'asset' //naming folder or add this in url for ALB redirection,
 ```
 
 Few tips to note when you are implementing this,
-- Bucket has to be public.
+- Bucket has to be public, if dont want the bucket to be public create custom controller to access the image via URL and add the code. Refer asset.js file in repo for details.
 - Added bucket policy to not to make it directly accessible, added AWS OAI policy.
 ```
 {
