@@ -21,7 +21,7 @@ module.exports = {
         return {
             upload(file, customParams = {}) {
                 return new Promise((resolve, reject) => {
-                    const objectKey = `${file.hash}${file.ext}`;
+                    var objectKey = `${file.hash}${file.ext}`;
                     if (config.baseFolder)objectKey=`${config.baseFolder}/${objectKey}`;
 
                     s3.upload({
