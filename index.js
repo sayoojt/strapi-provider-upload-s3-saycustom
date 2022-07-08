@@ -22,6 +22,8 @@ module.exports = {
             upload(file, customParams = {}) {
                 return new Promise((resolve, reject) => {
                     const objectKey = `${file.hash}${file.ext}`;
+                    if (config.baseFolder)objectKey=`${config.baseFolder}/${objectKey}`;
+
                     s3.upload({
                         ACL: config.ACL ? config.ACL : 'private',
                         ...customParams,
