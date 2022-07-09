@@ -19,7 +19,7 @@ module.exports = {
         let baseURLProtocol = "http://";
         if (config.isBaseUrlHttps) baseURLProtocol = "https://";
         
-        const upload =  (file, customParams = {}) => {
+        const upload =  (file, customParams = {}) => 
             new Promise((resolve, reject) => {
                var objectKey = `${file.hash}${file.ext}`;
                if (config.baseFolder)objectKey=`${config.baseFolder}/${objectKey}`;
@@ -41,13 +41,12 @@ module.exports = {
                    }
                    resolve();
                });
-           });
-        };        
+           }); 
         return {
-            uploadStream(file, customParams = {}) {
+            upload(file, customParams = {}) {
                 return upload(file, customParams);
             },
-            upload(file, customParams = {}) {
+            uploadStream(file, customParams = {}) {
                 return upload(file, customParams);
             },
             delete(file, customParams = {}) {
