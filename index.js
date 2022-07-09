@@ -46,9 +46,6 @@ module.exports = {
             upload(file, customParams = {}) {
                 return upload(file, customParams);
             },
-            uploadStream(file, customParams = {}) {
-                return upload(file, customParams);
-            },
             delete(file, customParams = {}) {
                 return new Promise((resolve, reject) => {
                     s3.deleteObject({
