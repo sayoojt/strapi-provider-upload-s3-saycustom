@@ -36,6 +36,9 @@ module.exports = {
                    if (config.baseUrl) {
                        file.url = `${baseURLProtocol}${config.baseUrl}${config.baseAPI}/${objectKey}`;
                    }
+                   else if (config.baseAPI && config.objectKey) {
+                       file.url = `${config.baseAPI}/${objectKey}`;
+                   }
                    else {
                        file.url = data.Location
                    }
