@@ -42,6 +42,7 @@ module.exports = {
                    else {
                        file.url = data.Location
                    }
+                   file.name = `${file.hash}${file.ext}`;
                    resolve();
                });
            }); 
